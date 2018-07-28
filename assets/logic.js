@@ -4,12 +4,15 @@ var config = {
     authDomain: "train-schedule-90e3e.firebaseapp.com",
     databaseURL: "https://train-schedule-90e3e.firebaseio.com",
     projectId: "train-schedule-90e3e",
-    storageBucket: "",
+    storageBucket: "train-schedule-90e3e.appspot.com",
     messagingSenderId: "112668291600"
+    
 };
 firebase.initializeApp(config);
 
 var database = firebase.database();
+
+
 
 //on click listener
 $("#submit").on("click", function (event) {
@@ -60,4 +63,5 @@ $(".table").append(newRow);
   // log any errors
 }, function(errorObject) {
   console.log("Errors handled: " + errorObject.code);
+  
 });
