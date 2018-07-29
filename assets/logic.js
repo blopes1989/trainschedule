@@ -7,6 +7,7 @@ var config = {
     storageBucket: "train-schedule-90e3e.appspot.com",
     messagingSenderId: "112668291600"
     
+    
 };
 firebase.initializeApp(config);
 
@@ -40,9 +41,9 @@ $("#submit").on("click", function (event) {
 
 });
 
-database.ref("/trains").on("child_added", function(anything) {
+database.ref("/trains").on("child_added", function(captured) {
     // variable to retrieve data
-    var retrieveTrainData = anything.val();
+    var retrieveTrainData = captured.val();
     //create table row row
     var newRow = $("<tr>")
     // puts info into specfic columns
@@ -51,6 +52,10 @@ database.ref("/trains").on("child_added", function(anything) {
     newRow.append("<td>" +retrieveTrainData.frequency+ "</td>"); 
 
     var totalTrainTime = Math.abs(moment().diff(moment(retrieveTrainData.time, "X"), "minutes"));
+    var freqDivider = ((totalTrainTime)/retrieveTrainData.frequency);
+    var freqDividerDecimal = freqDivider - Math.floor(freqDivider)
+   var nextTrainMinutes =  Math.round(retrieveTrainData.frequency - (retrieveTrainData.frequency*freqDividerDecimal)) 
+
 
     var nextTrainTime = moment().add(nextTrainMinutes, "m").toDate();
   nextTrainTimeFormatted = moment(nextTrainTime).format("HH:mm");
