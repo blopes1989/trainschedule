@@ -6,8 +6,8 @@ var config = {
     projectId: "train-schedule-90e3e",
     storageBucket: "train-schedule-90e3e.appspot.com",
     messagingSenderId: "112668291600"
-    
-    
+
+
 };
 firebase.initializeApp(config);
 
@@ -41,32 +41,32 @@ $("#submit").on("click", function (event) {
 
 });
 
-database.ref("/trains").on("child_added", function(captured) {
+database.ref("/trains").on("child_added", function (captured) {
     // variable to retrieve data
     var retrieveTrainData = captured.val();
     //create table row row
     var newRow = $("<tr>")
     // puts info into specfic columns
-    newRow.append("<td>" + retrieveTrainData.name+ "</td>");
-    newRow.append("<td>" +retrieveTrainData.destination+ "</td>");  
-    newRow.append("<td>" +retrieveTrainData.frequency+ "</td>"); 
-
+    newRow.append("<td>" + retrieveTrainData.name + "</td>");
+    newRow.append("<td>" + retrieveTrainData.destination + "</td>");
+    newRow.append("<td>" + retrieveTrainData.frequency + "</td>");
+    //calcualte when the next train comes
     var totalTrainTime = Math.abs(moment().diff(moment(retrieveTrainData.time, "X"), "minutes"));
-    var freqDivider = ((totalTrainTime)/retrieveTrainData.frequency);
+    var freqDivider = ((totalTrainTime) / retrieveTrainData.frequency);
     var freqDividerDecimal = freqDivider - Math.floor(freqDivider)
-   var nextTrainMinutes =  Math.round(retrieveTrainData.frequency - (retrieveTrainData.frequency*freqDividerDecimal)) 
+    var nextTrainMinutes = Math.round(retrieveTrainData.frequency - (retrieveTrainData.frequency * freqDividerDecimal))
 
-
+    //show next train time
     var nextTrainTime = moment().add(nextTrainMinutes, "m").toDate();
-  nextTrainTimeFormatted = moment(nextTrainTime).format("HH:mm");
+    nextTrainTimeFormatted = moment(nextTrainTime).format("HH:mm");
 
-  newRow.append("<td>" +nextTrainTimeFormatted+ "</td>");
+    newRow.append("<td>" + nextTrainTimeFormatted + "</td>");
 
-  
-  newRow.append("<td>" +nextTrainMinutes+ "</td>");
-$(".table").append(newRow);
-  // log any errors
-}, function(errorObject) {
-  console.log("Errors handled: " + errorObject.code);
-  
+
+    newRow.append("<td>" + nextTrainMinutes + "</td>");
+    $(".table").append(newRow);
+    // log any errors
+}, function (errorObject) {
+    console.log("Errors handled: " + errorObject.code);
+
 });

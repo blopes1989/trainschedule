@@ -1,0 +1,21 @@
+.card-body{ font-size: 20px;
+    color: blue
+
+}
+th{
+    color: green
+}
+.jumbotron{
+    color:blue;
+    background: black;
+}
+h1{
+    text-align: center;
+}
+p{
+    text-align: center;
+    color: green
+}
+form{
+    color:green;
+}
